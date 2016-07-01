@@ -10,12 +10,15 @@ var engine = require('ejs-mate');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
+var MongoStore = require('connect-mongo')(session);
+var passport = require('passport');
 
+var secret = require('./config/secret');
 var User = require('./models/user');
 
 // connection to mongoose
 
-mongoose.connect('mongodb://jhonny:123456@ds011755.mlab.com:11755/amazon-clone', function(err) {
+mongoose.connect(secret.database, function(err) {
   if(err) 
     throw err;
 
@@ -31,9 +34,12 @@ app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: "horacio"
+  secret: secret.secretKey,
+  store: new MongoStore({url: secret.database, autoReconnect: true})
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
@@ -46,7 +52,7 @@ app.use(userRoutes);
 
 var server = http.createServer(app);
 
-server.listen(3000, function(err) {
+server.listen(secret.port, function(err) {
   if(err) throw err;
-  console.log('server is running on port 3000');
+  console.log('server is running on port ' + secret.port);
 });
