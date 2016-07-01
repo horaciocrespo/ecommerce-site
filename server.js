@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var engine = require('ejs-mate');
-var session = require('session');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 
@@ -27,6 +27,13 @@ app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: "horacio"
+}));
+app.use(flash());
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
