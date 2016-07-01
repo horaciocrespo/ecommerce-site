@@ -49,7 +49,7 @@ UserSchema.pre('save', function(next) {
   
   if(!user.isModified('password')) return next();
 
-  bcrypt.getSalt(10, function(err, salt) {
+  bcrypt.genSalt(10, function(err, salt) {
     if(err) return next(err);
 
     bcrypt.hash(user.password, salt, null, function(err, hash) {
@@ -66,4 +66,6 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
-}
+};
+
+module.exports = mongoose.model('User', UserSchema);
