@@ -1,11 +1,15 @@
+'use strict';
+
+// third party modules
+var async = require('async');
+var stripe = require('stripe') ('sk_test_WnORQVtm8ELRWEjgm7q26u3w');
 var router = require('express').Router();
+
+// personal modules
 var User = require('../models/user');
 var Product = require('../models/product');
 var Cart = require('../models/cart');
 
-var async = require('async');
-
-var stripe = require('stripe') ('sk_test_RtVWGtHcykG3FyyNS1EGhbIq');
 
 function paginate(req, res, next) {
 
@@ -168,6 +172,7 @@ router.post('/payment', function(req, res, next) {
 
   var stripeToken = req.body.stripeToken;
   var currentCharges = Math.round(req.body.stripeMoney * 100);
+
   stripe.customers.create({
     source: stripeToken,
   }).then(function(customer) {

@@ -6,23 +6,13 @@ var Schema = mongoose.Schema;
 
 
 var UserSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true
-  },
+  email: { type: String, unique: true, lowercase: true },
 
   password: String,
 
   profile: {
-    name: {
-      type: String,
-      default: ''
-    },
-    picture: {
-      type: String,
-      default: ''
-    },
+    name: {type: String, default: '' },
+    picture: { type: String, default: '' },
   },
 
   address: String,
@@ -30,14 +20,8 @@ var UserSchema = new Schema({
   history: [
     {
       date: Date,
-      paid: { 
-        type: Number,
-        default: 0
-      },
-      item: {
-        type: Schema.Types.ObjectId,
-        ref: ''
-      }
+      paid: { type: Number, default: 0 },
+      item: { type: Schema.Types.ObjectId, ref: 'Product'}
     }
   ]
 });
