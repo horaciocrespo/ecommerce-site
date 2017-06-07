@@ -1,4 +1,4 @@
-# amazon-clone
+# ecommerce-site
 
 This is some kind of e-commerce website. Please refer to the following links to get more info of the technologies used in this project.
 
